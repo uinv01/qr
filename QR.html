@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>إصدار الهوية الإلكترونية - جامعة المعارف</title>
+    <title>إصدار الهوية الذكية - جامعة المعارف</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* --- المتغيرات والتصميم الأساسي مأخوذ من النظام الأم --- */
         :root { 
             --primary: #0a3d62; 
             --secondary: #3c6382; 
@@ -26,13 +27,14 @@
             display: flex; 
             flex-direction: column;
             color: var(--text-dark);
+            overflow-x: hidden;
         }
 
         .top-bar {
             background: linear-gradient(135deg, var(--primary), var(--secondary)); 
             color: #ffffff; 
             display: flex;
-            justify-content: center; 
+            justify-content: center;
             align-items: center;
             padding: 18px 20px; 
             font-size: 24px; 
@@ -40,6 +42,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             position: relative; 
             z-index: 1000;
+            letter-spacing: 1px;
         }
 
         .main-wrapper { flex: 1; padding: 25px 15px; display: flex; justify-content: center; align-items: flex-start; }
@@ -51,9 +54,9 @@
             text-align: center; box-sizing: border-box;
         }
         
-        .page-title { color: var(--primary); font-size: 24px; font-weight: 900; margin-bottom: 5px; margin-top: 0; }
-        .subtitle { color: var(--text-light); font-size: 15px; margin-bottom: 25px; font-weight: 600; }
+        .page-title { color: var(--primary); font-size: 22px; font-weight: 900; margin-bottom: 25px; margin-top: 0; }
 
+        /* --- صندوق التعليمات للطلاب --- */
         .instructions {
             background: #f1f8ff;
             border: 1px solid #d1e5f7;
@@ -61,24 +64,25 @@
             padding: 15px;
             text-align: right;
             margin-bottom: 25px;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--secondary);
-            line-height: 1.6;
+            line-height: 1.7;
         }
-        .instructions font { font-weight: bold; color: var(--primary); }
-
+        .instructions font { font-weight: bold; color: var(--primary); font-size: 15px;}
+        
+        /* --- الأزرار والحقول --- */
         .input-field { 
-            width: 100%; padding: 18px; border: 2px solid #ecf0f1; border-radius: 12px; 
+            width: 100%; padding: 16px; border: 2px solid #ecf0f1; border-radius: 12px; 
             font-size: 16px; margin-bottom: 20px; box-sizing: border-box; text-align: center; 
             font-family: 'Cairo', sans-serif; background: #fdfdfd; transition: all 0.3s;
             font-weight: 700; color: var(--primary);
         }
-        .input-field:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(0, 206, 201, 0.1); }
+        .input-field:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.1); }
         .input-field::placeholder { color: #bdc3c7; font-weight: 400; }
 
         .btn { 
-            color: #fff; border: none; padding: 16px; width: 100%; font-size: 18px; 
-            border-radius: 12px; cursor: pointer; font-weight: 800; transition: all 0.3s ease; 
+            color: #fff; border: none; padding: 16px; width: 100%; font-size: 16px; 
+            border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; 
             margin-bottom: 15px; display: flex; align-items: center; justify-content: center; 
             box-sizing: border-box; font-family: 'Cairo', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
@@ -87,11 +91,10 @@
         
         .btn-primary { background: linear-gradient(135deg, var(--primary), #105b92); }
         .btn-success { background: linear-gradient(135deg, var(--success), #179350); }
-        .btn-outline { background: #fff; color: var(--text-light); border: 2px solid #eee; box-shadow: none; font-size: 15px; font-weight: 700; }
-        .btn-outline:hover { background: #f8f9fa; border-color: #ddd; color: var(--primary); }
+        .btn-dept { background: #f8f9fa; color: var(--primary); border: 2px solid #e9ecef; box-shadow: none; }
+        .btn-dept:hover { border-color: var(--primary); background: #fff; }
 
-        #qrResultBox { display: none; flex-direction: column; align-items: center; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        
+        /* --- تنسيقات قسم QR --- */
         .qr-frame {
             background: #fff;
             padding: 15px;
@@ -100,15 +103,16 @@
             margin-bottom: 25px;
             border: 3px solid var(--accent);
             display: inline-block;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-
         #qrImage { display: block; max-width: 100%; width: 250px; height: 250px; border-radius: 10px; }
-        
         .student-name-display { font-size: 20px; font-weight: 900; color: var(--primary); margin-top: 15px; text-align: center; }
-
+        
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .footer { text-align: center; padding: 25px 20px; font-size: 14px; font-weight: 600; color: var(--text-light); margin-top: auto; }
+        /* --- الفوتر وحقوق المطور --- */
+        .footer { text-align: center; padding: 25px 20px; font-size: 15px; font-weight: 700; background: #ecf0f1; margin-top: auto; border-top: 1px solid #dfe6e9; }
+        .footer a { color: var(--primary); text-decoration: none; }
     </style>
 </head>
 <body>
@@ -118,64 +122,65 @@
 <div class="main-wrapper">
     <div class="container">
         <h2 class="page-title">إصدار الهوية الذكية</h2>
-        <div class="subtitle">نظام تسجيل الحضور الإلكتروني</div>
 
         <div class="instructions" id="instructionsBox">
             <font>طالبنا العزيز:</font><br>
             ١. اكتب اسمك الثلاثي باللغة العربية مطابقاً للقوائم الرسمية.<br>
             ٢. اضغط على توليد، ثم قم بـ <b>حفظ الصورة</b> في هاتفك.<br>
-            ٣. أبرز الصورة للدكتور عند أخذ الحضور لتسجيلك فوراً.
+            ٣. أبرز الصورة للأستاذ عند أخذ الحضور لتسجيلك فوراً.
         </div>
 
-        <div id="inputSection">
-            <input type="text" id="studentNameInput" class="input-field" placeholder="اكتب اسمك الثلاثي هنا..." autocomplete="off">
-            <button class="btn btn-primary" onclick="generateQR()">توليد الباركود الخاص بي</button>
+        <div id="inputBox">
+            <input type="text" id="studentNameForQR" class="input-field" placeholder="اكتب اسمك الثلاثي هنا..." autocomplete="off">
+            <button class="btn btn-primary" onclick="generateQR()" id="btnGenerate">توليد الباركود الخاص بي</button>
         </div>
 
-        <div id="qrResultBox">
+        <div id="qrResultBox" style="display:none; flex-direction:column; align-items:center;">
             <div class="qr-frame">
                 <img id="qrImage" src="" alt="Student QR Code">
                 <div class="student-name-display" id="displayName"></div>
             </div>
             
-            <button class="btn btn-success" onclick="downloadQR()">📥 حفظ الباركود في الهاتف</button>
-            <button class="btn btn-outline" onclick="resetForm()">✏️ تعديل الاسم</button>
+            <button class="btn btn-success" onclick="downloadQR()" id="btnDownload">📥 حفظ الباركود في الهاتف</button>
+            <button class="btn btn-dept" onclick="resetQR()">🔄 إنشاء باركود آخر</button>
         </div>
 
     </div>
 </div>
 
-<div class="footer">عمادة شؤون الطلبة - تقنية المعلومات</div>
+<div class="footer"><a href="https://har37ith.vercel.app/" target="_blank">تم تطوير النظام بواسطة حارث</a></div>
 
 <script>
     function generateQR() {
-        const input = document.getElementById("studentNameInput");
+        const input = document.getElementById("studentNameForQR");
         const name = input.value.trim();
         
+        // التحقق من أن الاسم منطقي (ثنائي على الأقل)
         if (name.length < 5 || name.split(" ").length < 2) {
-            alert("يرجى كتابة اسمك الثنائي أو الثلاثي بشكل صحيح ومكتمل.");
+            alert("يرجى كتابة الاسم الثنائي أو الثلاثي بشكل صحيح ومكتمل.");
             input.focus();
             return;
         }
 
-        // استخدام دقة عالية 500x500 لضمان القراءة السريعة من هاتف الدكتور
+        // توليد الباركود بدقة ممتازة للقراءة من شاشة الهاتف
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=15&data=${encodeURIComponent(name)}`;
         
         document.getElementById("qrImage").src = qrUrl;
         document.getElementById("displayName").innerText = name;
         
-        document.getElementById("inputSection").style.display = "none";
+        // إخفاء حقل الإدخال والتعليمات وعرض النتيجة
+        document.getElementById("inputBox").style.display = "none";
         document.getElementById("instructionsBox").style.display = "none";
         document.getElementById("qrResultBox").style.display = "flex";
     }
-
+    
     async function downloadQR() {
         const name = document.getElementById("displayName").innerText;
         const qrUrl = document.getElementById("qrImage").src;
         
-        const btn = document.querySelector('.btn-success');
+        const btn = document.getElementById("btnDownload");
         const originalText = btn.innerText;
-        btn.innerText = "جاري التحميل...";
+        btn.innerText = "جاري التحميل... ⏳";
         
         try {
             const response = await fetch(qrUrl);
@@ -194,12 +199,14 @@
             btn.innerText = originalText;
         }
     }
-
-    function resetForm() {
-        document.getElementById("qrResultBox").style.display = "none";
-        document.getElementById("inputSection").style.display = "block";
+    
+    function resetQR() { 
+        document.getElementById("studentNameForQR").value = ""; 
+        document.getElementById("qrResultBox").style.display = "none"; 
+        // إعادة إظهار التعليمات وحقل الإدخال
         document.getElementById("instructionsBox").style.display = "block";
-        document.getElementById("studentNameInput").focus();
+        document.getElementById("inputBox").style.display = "block"; 
+        document.getElementById("studentNameForQR").focus();
     }
 </script>
 </body>
