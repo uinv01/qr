@@ -5,134 +5,227 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>إصدار الهوية الذكية - جامعة المعارف</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- المتغيرات والتصميم الأساسي مأخوذ من النظام الأم --- */
+        /* ========================================================
+           --- الثيم الزجاجي المظلم (Glassmorphism) الموحد ---
+           ======================================================== */
         :root { 
-            --primary: #0a3d62; 
-            --secondary: #3c6382; 
-            --accent: #00cec9; 
-            --success: #20bf6b; 
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-            --text-dark: #2c3e50;
-            --text-light: #7f8c8d;
+            --primary: #6366f1; /* نيون نيلي */
+            --primary-glow: rgba(99, 102, 241, 0.4);
+            --secondary: #0ea5e9; /* أزرق سماوي */
+            --accent: #8b5cf6; /* بنفسجي تكنولوجي */
+            --success: #10b981; /* أخضر ساطع */
+            --danger: #f43f5e; /* أحمر نيون */
+            --warning: #f59e0b; /* أصفر كهرماني */
+            
+            /* ألوان الخلفيات الزجاجية */
+            --bg-base: #020617; /* أسود ليلي عميق */
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-hover: rgba(30, 41, 59, 0.9);
+            
+            /* ألوان النصوص */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
         
+        /* منع العودة للخلف بالسحب */
+        html, body { 
+            overscroll-behavior-x: none; 
+            background-color: var(--bg-base);
+        }
+
         body { 
             font-family: 'Cairo', sans-serif; 
             margin: 0; padding: 0;
-            background: var(--bg-color); 
+            /* خلفية ديناميكية متدرجة تعطي طابع الـ Cyber */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.12), transparent 25%);
+            background-attachment: fixed;
             min-height: 100vh; 
             display: flex; 
             flex-direction: column;
-            color: var(--text-dark);
+            color: var(--text-main);
             overflow-x: hidden;
         }
 
+        /* --- الشريط العلوي (Floating Header) --- */
         .top-bar {
-            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-            color: #ffffff; 
+            background: rgba(2, 6, 23, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-main); 
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 18px 20px; 
-            font-size: 24px; 
+            padding: 20px; 
+            font-size: 26px; 
             font-weight: 900;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            position: relative; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            position: sticky;
+            top: 0;
             z-index: 1000;
-            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
         }
+        .top-bar-title { cursor: default; letter-spacing: 1px; pointer-events: none; }
 
-        .main-wrapper { flex: 1; padding: 25px 15px; display: flex; justify-content: center; align-items: flex-start; }
+        /* --- الحاوية الرئيسية الزجاجية --- */
+        .main-wrapper { flex: 1; padding: 30px 15px 20px; display: flex; justify-content: center; align-items: flex-start; }
         
         .container { 
-            background: var(--card-bg); width: 100%; max-width: 500px; 
-            padding: 35px 25px; border-radius: 20px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.03); 
-            text-align: center; box-sizing: border-box;
+            background: var(--glass-bg); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 100%; max-width: 650px; 
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1); 
+            border: 1px solid var(--glass-border); 
+            text-align: center; box-sizing: border-box; position: relative; margin-bottom: 10px;
         }
         
-        .page-title { color: var(--primary); font-size: 22px; font-weight: 900; margin-bottom: 25px; margin-top: 0; }
+        .page-title { 
+            background: linear-gradient(135deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 26px; font-weight: 900; margin-bottom: 25px; margin-top: 0; 
+            letter-spacing: -0.5px;
+        }
 
-        /* --- صندوق التعليمات للطلاب --- */
+        /* --- صندوق التعليمات للطلاب (Glassy Box) --- */
         .instructions {
-            background: #f1f8ff;
-            border: 1px solid #d1e5f7;
-            border-radius: 12px;
-            padding: 15px;
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 20px;
             text-align: right;
             margin-bottom: 25px;
-            font-size: 14px;
-            color: var(--secondary);
-            line-height: 1.7;
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.8;
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
         }
-        .instructions font { font-weight: bold; color: var(--primary); font-size: 15px;}
+        .instructions font { 
+            font-weight: 900; 
+            color: var(--secondary); 
+            font-size: 18px; 
+            display: block; 
+            margin-bottom: 10px; 
+            border-bottom: 1px dashed rgba(14,165,233,0.3); 
+            padding-bottom: 5px;
+            text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+        }
+        .instructions b { color: var(--warning); }
         
-        /* --- الأزرار والحقول --- */
+        /* --- حقول الإدخال --- */
         .input-field { 
-            width: 100%; padding: 16px; border: 2px solid #ecf0f1; border-radius: 12px; 
+            width: 100%; padding: 18px; border: 1px solid var(--glass-border); border-radius: 16px; 
             font-size: 16px; margin-bottom: 20px; box-sizing: border-box; text-align: center; 
-            font-family: 'Cairo', sans-serif; background: #fdfdfd; transition: all 0.3s;
-            font-weight: 700; color: var(--primary);
+            font-family: 'Cairo', sans-serif; background: rgba(0,0,0,0.2); font-weight: 700; 
+            color: #fff; transition: 0.3s; backdrop-filter: blur(5px);
         }
-        .input-field:focus { outline: none; border-color: var(--primary); background: #fff; box-shadow: 0 0 0 3px rgba(10, 61, 98, 0.1); }
-        .input-field::placeholder { color: #bdc3c7; font-weight: 400; }
+        .input-field::placeholder { color: #64748b; font-weight: 600; }
+        .input-field:focus { 
+            outline: none; border-color: var(--secondary); background: rgba(0,0,0,0.4); 
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); 
+        }
 
+        /* --- الأزرار المتقدمة (Neon & Glass) --- */
         .btn { 
-            color: #fff; border: none; padding: 16px; width: 100%; font-size: 16px; 
-            border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.3s ease; 
-            margin-bottom: 15px; display: flex; align-items: center; justify-content: center; 
-            box-sizing: border-box; font-family: 'Cairo', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid transparent; width: 100%; font-size: 15px; 
+            border-radius: 16px; cursor: pointer; font-weight: 700; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            margin-bottom: 16px; display: flex; align-items: center; justify-content: center; 
+            box-sizing: border-box; font-family: 'Cairo', sans-serif;
+            position: relative; overflow: hidden;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
-        .btn:active { transform: translateY(1px); }
+        .btn span { margin: 0 auto; z-index: 1; position: relative; }
         
-        .btn-primary { background: linear-gradient(135deg, var(--primary), #105b92); }
-        .btn-success { background: linear-gradient(135deg, var(--success), #179350); }
-        .btn-dept { background: #f8f9fa; color: var(--primary); border: 2px solid #e9ecef; box-shadow: none; }
-        .btn-dept:hover { border-color: var(--primary); background: #fff; }
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s;
+        }
+        .btn:hover::before { left: 100%; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .btn:active { transform: translateY(1px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(100%); }
+        
+        .btn-icon { position: absolute; left: 20px; font-size: 1.3rem; opacity: 0.9; pointer-events: none; }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary), var(--accent)); 
+            box-shadow: 0 4px 15px var(--primary-glow); border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover { box-shadow: 0 8px 25px var(--primary-glow); }
+
+        .btn-success { background: linear-gradient(135deg, var(--success), #059669); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        
+        .btn-dept { 
+            background: rgba(255,255,255,0.03); color: var(--text-main); border: 1px solid var(--glass-border); 
+            backdrop-filter: blur(10px);
+        }
+        .btn-dept:hover { 
+            border-color: var(--secondary); background: rgba(14, 165, 233, 0.1); 
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2); color: #fff;
+        }
 
         /* --- تنسيقات قسم QR --- */
-        .qr-frame {
-            background: #fff;
-            padding: 15px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-            border: 3px solid var(--accent);
-            display: inline-block;
-            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .qr-frame { 
+            background: rgba(255,255,255,0.02); padding: 20px; border-radius: 24px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); margin-bottom: 30px; 
+            border: 2px solid var(--accent); display: inline-block; 
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+            backdrop-filter: blur(10px);
         }
-        #qrImage { display: block; max-width: 100%; width: 250px; height: 250px; border-radius: 10px; }
-        .student-name-display { font-size: 20px; font-weight: 900; color: var(--primary); margin-top: 15px; text-align: center; }
+        #qrImage { display: block; max-width: 100%; width: 260px; height: 260px; border-radius: 12px; border: 4px solid #fff; }
+        .student-name-display { font-size: 22px; font-weight: 900; color: var(--text-main); margin-top: 18px; text-align: center; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        /* --- الفوتر وحقوق المطور --- */
-        .footer { text-align: center; padding: 25px 20px; font-size: 15px; font-weight: 700; background: #ecf0f1; margin-top: auto; border-top: 1px solid #dfe6e9; }
-        .footer a { color: var(--primary); text-decoration: none; }
+        /* --- الفوتر --- */
+        .footer { text-align: center; padding: 15px 20px 20px; font-size: 14px; font-weight: 700; background: transparent; margin-top: auto; color: var(--text-muted); }
+        .footer a { color: var(--secondary); text-decoration: none; font-weight: 900; transition: 0.3s; }
+        .footer a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
+
+        /* =========================================================
+           دعم توافقية الشاشات (Responsive Design)
+           ========================================================= */
+        @media (min-width: 768px) {
+            .container { max-width: 700px; padding: 50px; }
+            .btn { font-size: 16px; padding: 18px; border-radius: 20px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="top-bar">جامعة المعارف</div>
+<div class="top-bar">
+    <div class="top-bar-title">جامعة المعارف</div>
+</div>
 
 <div class="main-wrapper">
     <div class="container">
         <h2 class="page-title">إصدار الهوية الذكية</h2>
 
         <div class="instructions" id="instructionsBox">
-            <font>طالبنا العزيز:</font><br>
-            ١. اكتب اسمك الثلاثي مطابقاً للقوائم.<br>
-            ٢. اضغط توليد ثم  <b>لحفظ الصورة</b> في هاتفك.<br>
-            ٣. أبرز الصورة عند أخذ الحضور لتسجيلك فوراً.
+            <font><i class="fas fa-info-circle"></i> طالبنا العزيز:</font>
+            ١. اكتب اسمك الثلاثي أو الرباعي مطابقاً للقوائم.<br>
+            ٢. اضغط توليد ثم <b>حفظ الباركود</b> في هاتفك.<br>
+            ٣. أبرز الصورة لقرائتها عند أخذ الحضور لتسجيلك فوراً.
         </div>
 
         <div id="inputBox">
             <input type="text" id="studentNameForQR" class="input-field" placeholder="اكتب اسمك الثلاثي هنا..." autocomplete="off">
-            <button class="btn btn-primary" onclick="generateQR()" id="btnGenerate">توليد الباركود الخاص بي</button>
+            <button class="btn btn-primary" onclick="generateQR()" id="btnGenerate">
+                <span>توليد الباركود الخاص بي</span><i class="fas fa-magic btn-icon"></i>
+            </button>
         </div>
 
         <div id="qrResultBox" style="display:none; flex-direction:column; align-items:center;">
@@ -141,8 +234,12 @@
                 <div class="student-name-display" id="displayName"></div>
             </div>
             
-            <button class="btn btn-success" onclick="downloadQR()" id="btnDownload"> حفظ الباركود في الهاتف</button>
-            <button class="btn btn-dept" onclick="resetQR()"> إنشاء باركود آخر</button>
+            <button class="btn btn-success" onclick="downloadQR()" id="btnDownload">
+                <span>حفظ الباركود في الهاتف</span><i class="fas fa-download btn-icon"></i>
+            </button>
+            <button class="btn btn-dept" onclick="resetQR()">
+                <span>إنشاء باركود آخر</span><i class="fas fa-redo-alt btn-icon"></i>
+            </button>
         </div>
 
     </div>
@@ -179,8 +276,8 @@
         const qrUrl = document.getElementById("qrImage").src;
         
         const btn = document.getElementById("btnDownload");
-        const originalText = btn.innerText;
-        btn.innerText = "جاري التحميل... ⏳";
+        const originalHTML = btn.innerHTML; // استخدام innerHTML للحفاظ على الأيقونة
+        btn.innerHTML = `<span>جاري التحميل...</span><i class="fas fa-spinner fa-spin btn-icon"></i>`;
         
         try {
             const response = await fetch(qrUrl);
@@ -192,11 +289,11 @@
             link.click();
             document.body.removeChild(link);
             
-            btn.innerText = "✅ تم الحفظ بنجاح";
-            setTimeout(() => { btn.innerText = originalText; }, 2000);
+            btn.innerHTML = `<span>تم الحفظ بنجاح</span><i class="fas fa-check btn-icon"></i>`;
+            setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
         } catch (err) {
             alert("عذراً، حدث خطأ أثناء الحفظ. يمكنك التقاط صورة للشاشة (Screenshot) بدلاً من ذلك.");
-            btn.innerText = originalText;
+            btn.innerHTML = originalHTML;
         }
     }
     
